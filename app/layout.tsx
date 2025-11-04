@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Header from "./_components/header";
 const archivoBlack = Archivo_Black({
   subsets: ["latin"],
   weight: "400",
@@ -28,7 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${archivoBlack.variable} ${space.variable}`}>
-        {children}
+        <div className="container mx-auto font-sans">
+          <div className="w-full p-4">
+            <Header />
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
