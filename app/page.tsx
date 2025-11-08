@@ -2,8 +2,11 @@ import { Input } from "@/components/retroui/Input";
 import Bundles from "./_components/bundles";
 import NewsItem from "./_components/news-item";
 import Tags from "./_components/tags";
+import { getBookmarks } from "./_actions/bookmark-action";
+import { Bookmark } from "./_interface/bookmark";
 
-export default function Home() {
+export default async function Home() {
+  const bookmarks = await getBookmarks();
   return (
     <div className="grid grid-cols-3 gap-12 w-full">
       <div className="col-span-2">
@@ -15,11 +18,10 @@ export default function Home() {
           </div>
         </div>
 
-        <ul className="flex flex-col gap-2 h-full w-full justify-center mb-4">
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
+        <ul className="flex flex-col gap-2 h-full w-full mt-4">
+          {bookmarks.map((bookmark: Bookmark) => (
+            <NewsItem key={bookmark.id} bookmark={bookmark} />
+          ))}
         </ul>
       </div>
 

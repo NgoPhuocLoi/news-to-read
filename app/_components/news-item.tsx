@@ -1,31 +1,36 @@
 import React from "react";
+import { Bookmark } from "../_interface/bookmark";
 
-const NewsItem = () => {
+interface NewsItemProps {
+  bookmark: Bookmark;
+}
+
+const NewsItem = ({ bookmark }: NewsItemProps) => {
   return (
     <li>
-      <a href="#" className="text-[#7B542F] font-bold text-lg hover:underline">
-        Libre Translate
+      <a
+        href={bookmark.url}
+        target="_blank"
+        className="text-[#7B542F] font-bold text-lg hover:underline"
+      >
+        {bookmark.title}
       </a>
       <div className="flex gap-1">
         <span className="flex gap-1">
-          <a className="hover:underline text-[#FF9D00]" href="#">
-            #polls
-          </a>
-          <a className="hover:underline text-[#FF9D00]" href="#">
-            #test
-          </a>
+          {bookmark.tags.map((tag) => (
+            <a key={tag.id} className="hover:underline text-[#FF9D00]">
+              #{tag.name}
+            </a>
+          ))}
         </span>
-        <span>|</span>
-        <div className="line-clamp-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Error,
-          provident quasi accusantium facere nulla fugiat est magnam consequatur
-          odit, recusandae, repudiandae impedit quia molestias illo officiis
-          delectus voluptatem. Ipsam, aliquam.
-        </div>
+        {bookmark.tags.length > 0 && bookmark.description && <span>|</span>}
+        <div className="line-clamp-1">{bookmark.description}</div>
       </div>
 
       <div>
-        <span className="text-gray-400 text-sm leading-0">Yesterday</span>
+        <span className="text-gray-400 text-sm leading-0">
+          {bookmark.createdAt}
+        </span>
       </div>
     </li>
   );
