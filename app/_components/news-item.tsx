@@ -1,6 +1,6 @@
-import React from "react";
-import { Bookmark } from "../_interface/bookmark";
 import { DateTime } from "luxon";
+import { deleteBookmark } from "../_actions/bookmark-action";
+import { Bookmark } from "../_interface/bookmark";
 
 interface NewsItemProps {
   bookmark: Bookmark;
@@ -8,7 +8,7 @@ interface NewsItemProps {
 
 const NewsItem = ({ bookmark }: NewsItemProps) => {
   return (
-    <li>
+    <li className="hover:bg-gray-100 rounded-md px-2 py-1">
       <a
         href={bookmark.url}
         target="_blank"
@@ -33,6 +33,11 @@ const NewsItem = ({ bookmark }: NewsItemProps) => {
           {DateTime.fromISO(bookmark.createdAt).toLocal().toRelative()}
         </span>
       </div>
+      <form action={deleteBookmark.bind(null, bookmark.id)} className="mt-2">
+        <button className="text-sm text-red-600 hover:cursor-pointer hover:underline">
+          Delete
+        </button>
+      </form>
     </li>
   );
 };

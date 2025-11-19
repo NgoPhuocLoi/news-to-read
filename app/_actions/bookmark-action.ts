@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { Bookmark } from "../_interface/bookmark";
 import z from "zod";
+import { revalidatePath } from "next/cache";
 
 const createBookmarkDtoSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -62,4 +63,24 @@ export const createBookmark = async (
   }
 
   redirect("/");
+};
+
+export const deleteBookmark = async (bookmarkId: string) => {
+  try {
+    const res = await fetch(
+      `http://localhost:8080/api/bookmarks/${bookmarkId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to delete bookmark");
+    }
+  } catch (error) {
+    console.error("Error deleting bookmark:", error);
+    throw error;
+  }
+
+  revalidatePath("/");
 };
