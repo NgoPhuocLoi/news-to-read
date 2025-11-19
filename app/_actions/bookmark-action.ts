@@ -30,29 +30,19 @@ export const createBookmark = async (
   prevState: object | null,
   data: FormData
 ) => {
-  const url = data.get("url") as string;
-  const title = data.get("title") as string;
-  const description = data.get("description") as string;
   const tagsString = data.get("tags") as string;
 
-  const tags = tagsString ? tagsString.split(" ").map((tag) => tag.trim()) : [];
-
   const payload = {
-    url,
-    title,
-    description,
-    tags,
+    url: data.get("url") as string,
+    title: data.get("title") as string,
+    description: data.get("description") as string,
+    tags: tagsString ? tagsString.split(" ").map((tag) => tag.trim()) : [],
   };
 
   const parsed = createBookmarkDtoSchema.safeParse(payload);
   if (!parsed.success) {
     return { errors: z.treeifyError(parsed.error) };
   }
-
-  console.log({
-    payload,
-    data,
-  });
 
   try {
     const res = await fetch("http://localhost:8080/api/bookmarks", {
@@ -66,10 +56,10 @@ export const createBookmark = async (
     if (!res.ok) {
       throw new Error("Failed to create bookmark");
     }
-
-    redirect("/");
   } catch (error) {
     console.error("Error creating bookmark:", error);
     throw error;
   }
+
+  redirect("/");
 };
