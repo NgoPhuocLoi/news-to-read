@@ -1,5 +1,6 @@
 import React from "react";
 import { Bookmark } from "../_interface/bookmark";
+import { DateTime } from "luxon";
 
 interface NewsItemProps {
   bookmark: Bookmark;
@@ -29,7 +30,7 @@ const NewsItem = ({ bookmark }: NewsItemProps) => {
 
       <div>
         <span className="text-gray-400 text-sm leading-0">
-          {bookmark.createdAt}
+          {DateTime.fromISO(bookmark.createdAt).toLocal().toRelative()}
         </span>
       </div>
     </li>
