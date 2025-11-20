@@ -15,7 +15,9 @@ const createBookmarkDtoSchema = z.object({
 
 export const getBookmarks = async () => {
   try {
-    const res = await fetch(`${NEWS_TO_READ_SERVICE_ENDPOINT}/bookmarks`);
+    const res = await fetch(`${NEWS_TO_READ_SERVICE_ENDPOINT}/bookmarks`, {
+      cache: "no-store",
+    });
     if (!res.ok) {
       return [];
     }
