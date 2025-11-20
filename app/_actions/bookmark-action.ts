@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Bookmark } from "../_interface/bookmark";
 import z from "zod";
 import { revalidatePath } from "next/cache";
+import { NEWS_TO_READ_SERVICE_ENDPOINT } from "../constants/api-endpoint";
 
 const createBookmarkDtoSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -14,7 +15,7 @@ const createBookmarkDtoSchema = z.object({
 
 export const getBookmarks = async () => {
   try {
-    const res = await fetch("http://localhost:8080/api/bookmarks");
+    const res = await fetch(`${NEWS_TO_READ_SERVICE_ENDPOINT}/bookmarks`);
     if (!res.ok) {
       return [];
     }
@@ -46,7 +47,7 @@ export const createBookmark = async (
   }
 
   try {
-    const res = await fetch("http://localhost:8080/api/bookmarks", {
+    const res = await fetch(`${NEWS_TO_READ_SERVICE_ENDPOINT}/bookmarks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +69,7 @@ export const createBookmark = async (
 export const deleteBookmark = async (bookmarkId: string) => {
   try {
     const res = await fetch(
-      `http://localhost:8080/api/bookmarks/${bookmarkId}`,
+      `${NEWS_TO_READ_SERVICE_ENDPOINT}/bookmarks/${bookmarkId}`,
       {
         method: "DELETE",
       }
